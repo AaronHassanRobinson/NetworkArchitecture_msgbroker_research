@@ -5,6 +5,7 @@ import random
 from paho.mqtt import client as mqtt_client
 
 
+TOTAL_MSGS = 1000
 broker = '192.168.123.233'
 port = 1883
 topic = "python/mqtt"

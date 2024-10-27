@@ -10,8 +10,8 @@ from paho.mqtt import client as mqtt_client
 #define a set of random characters
 letters = string.ascii_lowercase
 # Set packet size to desired byte size
-PACKET_SIZE = 2**23
-TOTAL_MESSAGES = 10
+PACKET_SIZE = 256
+TOTAL_MESSAGES = 100
 test_packet = "\x00"*max(PACKET_SIZE, 0) 
 
 def randomData(length, letters):

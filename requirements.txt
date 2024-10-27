@@ -11,3 +11,4 @@ paho-mqtt==2.1.0
 protobuf==5.28.2
 referencing==0.35.1
 rpds-py==0.20.0
+python-qpid-proton==0.39.0
