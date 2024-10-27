@@ -1,9 +1,9 @@
 from proton import Message
-
 from proton.handlers import MessagingHandler
-
 from proton.reactor import Container
+import time
 
+# Connection details
 USER = "admin"
 PASSWORD = "password"
 HOST = '192.168.123.233'
@@ -11,31 +11,46 @@ PORT = '5672'
 
 host = HOST + ":" + PORT
 
-
-
+TOTAL_MESSAGES = 1000  # Adjust as needed based on expected queue size
 
 
 class Consumer(MessagingHandler):
-
-    def __init__(self, server, address):
+    def __init__(self, server, address, total_messages):
         super(Consumer, self).__init__()
         self.server = server
         self.address = address
-
+        self.total_messages = total_messages
+        self.received = 0
+        self.start_time = None
+        self.end_time = None
 
     def on_start(self, event):
         conn = event.container.connect(self.server)
         event.container.create_receiver(conn, self.address)
-        #event.container.create_sender(conn, self.address)
+        self.start_time = time.time()  # Start timing when the receiver is created
 
-
-    #def on_sendable(self, event):
-        #event.sender.send(Message(body="Hello World!"))
-        #event.sender.close()
-
-        pass
     def on_message(self, event):
-        print(event.message.body)
-        event.connection.close()
+        #print(event.message.body)
+        self.received += 1
 
-Container(Consumer(host, "queue")).run()
+        if self.received == self.total_messages:
+            # End time is captured when all messages are received
+            self.end_time = time.time()
+            event.connection.close()
+            elapsed_time = self.end_time - self.start_time
+            print(f"Time taken to consume all {self.total_messages} messages: {elapsed_time:.2f} seconds.")
+            print(f"Rate: {self.total_messages / elapsed_time:.2f} messages/second.")# Close connection to trigger on_disconnected
+
+    def on_disconnected(self, event):
+        if self.end_time is None:
+            self.end_time = time.time()
+        
+        #elapsed_time = self.end_time - self.start_time
+        #print(f"Time taken to consume all {self.total_messages} messages: {elapsed_time:.2f} seconds.")
+        #print(f"Rate: {self.total_messages / elapsed_time:.2f} messages/second.")
+
+if __name__ == '__main__':
+    try:
+        Container(Consumer(host, "queue", TOTAL_MESSAGES)).run()
+    except KeyboardInterrupt:
+        print("Exiting...")
