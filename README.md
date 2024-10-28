@@ -37,12 +37,14 @@ Source: https://openvpn.net/community-resources/how-to/
 This suited our needs for creating a network tunnel. 
 
 Upon start up, first a command is used to route the proxy through the tunnel: 
+```
 route -n add -net 192.168.123.0/24 10.8.0.1
-
+```
 
 Next the tunnel is created with the command: 
+```
 sudo openvpn --config client.ovpn   	
-
+```
 ## Setting up the proxy server:
 
 ### NGINX:
@@ -69,10 +71,12 @@ nginx version: nginx/1.24.0 (Ubuntu)
 
 #### Configuring the nginx proxy: 
 To configure the nginx proxy we need to edit:
+```
 /etc/nginx/nginx.conf
-
+```
 
 #### The settings we used are as follows: 
+```
 load_module modules/ngx_stream_module.so;
 events {}
 
@@ -92,13 +96,14 @@ stream {
     	}
 
 }
-
+```
 
 #### Note:
 Where webserver.norbazad.ron.com is the location of where the rabbitmq server sits, 5672 is the default port used for rabbitmq. 
 Next, reload:
+```
 nginx -s reload
-
+```
 
 ### SQUID:
 Squid is a caching proxy for the Web supporting HTTP, HTTPS, FTP, and more. It reduces bandwidth and improves response times by caching and reusing frequently-requested web pages. Squid has extensive access controls and makes a great server accelerator. It runs on most available operating systems, including Windows and is licensed under the GNU GPL.
