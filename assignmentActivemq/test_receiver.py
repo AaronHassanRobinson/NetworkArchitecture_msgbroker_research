@@ -11,7 +11,7 @@ PORT = '5672'
 
 host = HOST + ":" + PORT
 
-TOTAL_MESSAGES = 1000  # Adjust as needed based on expected queue size
+TOTAL_MESSAGES = 10 # Adjust as needed based on expected queue size
 
 
 class Consumer(MessagingHandler):
@@ -38,8 +38,8 @@ class Consumer(MessagingHandler):
             self.end_time = time.time()
             event.connection.close()
             elapsed_time = self.end_time - self.start_time
-            print(f"Time taken to consume all {self.total_messages} messages: {elapsed_time:.2f} seconds.")
-            print(f"Rate: {self.total_messages / elapsed_time:.2f} messages/second.")# Close connection to trigger on_disconnected
+            print(f"Time taken to consume all {self.total_messages} messages: {elapsed_time:} seconds.")
+            print(f"Rate: {self.total_messages / elapsed_time:} messages/second.")# Close connection to trigger on_disconnected
 
     def on_disconnected(self, event):
         if self.end_time is None:

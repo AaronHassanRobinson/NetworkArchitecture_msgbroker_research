@@ -16,8 +16,8 @@ host = HOST + ":" + PORT
 hostQueue = host + "/queue"
 
 # Message payload details
-PACKET_SIZE = 256
-TOTAL_MESSAGES = 1000
+PACKET_SIZE = 2**23
+TOTAL_MESSAGES = 10
 letters = string.ascii_lowercase
 
 def randomData(length, letters):
