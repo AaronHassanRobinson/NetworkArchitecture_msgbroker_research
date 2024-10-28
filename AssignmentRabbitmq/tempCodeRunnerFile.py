@@ -1,0 +1,1 @@
+rabbitpy.Connection(url)
