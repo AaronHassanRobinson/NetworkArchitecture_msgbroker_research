@@ -12,3 +12,4 @@ protobuf==5.28.2
 referencing==0.35.1
 rpds-py==0.20.0
 python-qpid-proton==0.39.0
+rabbitpy==2.0.1
